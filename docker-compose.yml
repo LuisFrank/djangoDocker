@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+    db_postgres:
+        image: postgres:11.5
+        volumes: 
+            - postgres_data:/var/lib/postgresql/data
+        # environment:
+        #     - "POSTGRES_HOST_AUTH_METHOD=trust"
+
+    django_app:
+        build: .
+        # command: python manage.py runserver 0.0.0.0:8000
+        volumes:
+            - static:/app/static
+            - .:/app
+        # ports:
+        #     - "8000:8000" 
+        depends_on: 
+            - db_postgres
+    nginx:
+        image: nginx:1.13
+        ports:
+            - 8000:80
+        volumes:
+            - ./config/nginx/conf.d:/etc/nginx/conf.d
+            - static:/app/static
+        depends_on: 
+            - django_app
+   
+volumes:
+    .:
+    postgres_data:
+    static:
+   

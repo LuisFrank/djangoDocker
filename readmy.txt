@@ -1,0 +1,22 @@
+1.- crear proyecto
+ docker-compose run web django-admin startproject mysite .
+
+2.- Crear app dentro del proyecto . 
+Previamente debe estar  "up"
+docker-compose up
+docker exec tolusko_web_1 python manage.py startapp greet
+
+
+3.- configurar database
+
+docker-compose run web python manage.py migrate
+
+
+4.- luego de una modificacion siempre hacer build
+docker-compose up --build
+
+5.- ejecutar migracion de database
+docker-compose run web python manage.py migrate
+docker-compose run django_app python tolusko/manage.py migrate (nueva configuracion de rutas)
+
+docker-compose run web python manage.py collectstatic  (para archivos staticos) 
